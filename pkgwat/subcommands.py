@@ -227,3 +227,27 @@ class Contents(cliff.command.Command):
                 sys.stdout.write(filename + "\n")
             for child in d.get('children', []):
                 self._recursive_print(child, prefix=filename + '/')
+
+
+class Changelog(FCommLister):
+    """ Show the changelog for a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        return parser
+
+    def take_action(self, args):
+        columns = ['display_date', 'author', 'version', 'text']
+        result = pkgwat.api.changelog(
+            args.package,
+            rows_per_page=args.rows_per_page,
+            start_row=args.start_row,
+        )
+        rows = result['rows']
+        return (
+            columns,
+            [[row[col] for col in columns] for row in rows],
+        )

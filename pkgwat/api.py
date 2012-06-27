@@ -180,3 +180,18 @@ def contents(package, arch="x86_64", release="Rawhide", strip_tags=True):
         d = pkgwat.utils.strip_tags(d)
 
     return d
+
+
+def changelog(package, rows_per_page=10, start_row=0, strip_tags=True):
+    build_id = builds(package)['rows'][0]['build_id']
+
+    path = "koji/query/query_changelogs"
+    query = {
+        "filters": {
+            "build_id": build_id,
+        },
+        "rows_per_page": rows_per_page,
+        "start_row": start_row,
+    }
+
+    return _make_request(path, query, strip_tags)
