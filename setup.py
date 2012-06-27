@@ -28,17 +28,6 @@ requires = [
     'requests',
 ]
 
-if sys.version_info[0] == 3:
-    requires.extend([
-        'beautifulsoup4',
-    ])
-elif sys.version_info[0] == 2:
-    requires.extend([
-        'BeautifulSoup',
-    ])
-else:
-    raise RuntimeError("Unsupported python version.")
-
 
 from pkgwat import (
     __name__,

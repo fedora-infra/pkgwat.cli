@@ -1,10 +1,18 @@
 import six
 
-try:
-    # Python3
-    from beautifulsoup4 import BeautifulSoup
-except ImportError:
-    from BeautifulSoup import BeautifulSoup
+from HTMLParser import HTMLParser
+
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+
+    def handle_data(self, d):
+        self.fed.append(d)
+
+    def get_data(self):
+        return ''.join(self.fed)
 
 
 def strip_tags(d):
@@ -17,6 +25,8 @@ def strip_tags(d):
         return [strip_tags(element) for element in d]
 
     if isinstance(d, six.text_type):
-        return BeautifulSoup(d).text
+        s = MLStripper()
+        s.feed(d)
+        return s.get_data()
 
     return d
