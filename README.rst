@@ -63,31 +63,6 @@ You can search for packages::
     | crossfire-client | Client for connecting to crossfire servers            |
     +------------------+-------------------------------------------------------+
 
-Overview info on a particular package::
-    --- ~ » pkgwat info nethack
-    +--------------+-------------------------------------------------------------------------+
-    | Field        | Value                                                                   |
-    +--------------+-------------------------------------------------------------------------+
-    | upstream_url | http://nethack.org                                                      |
-    | description  | NetHack is a single player dungeon exploration game that runs on a      |
-    |              | wide variety of computer systems, with a variety of graphical and text  |
-    |              | interfaces all using the same game engine.                              |
-    |              |                                                                         |
-    |              | Unlike many other Dungeons & Dragons-inspired games, the emphasis in    |
-    |              | NetHack is on discovering the detail of the dungeon and not simply      |
-    |              | killing everything in sight - in fact, killing everything in sight is   |
-    |              | a good way to die quickly.                                              |
-    |              |                                                                         |
-    |              | Each game presents a different landscape - the random number generator  |
-    |              | provides an essentially unlimited number of variations of the dungeon   |
-    |              | and its denizens to be discovered by the player in one of a number of   |
-    |              | characters: you can pick your race, your role, and your gender.         |
-    | name         | nethack                                                                 |
-    | summary      | A rogue-like single player dungeon exploration game                     |
-    | link         | https://apps.fedoraproject.org/packages/nethack                         |
-    | devel_owner  | lmacken                                                                 |
-    +--------------+-------------------------------------------------------------------------+
-
 Flexibility with output formats for all commands::
 
     --- ~ » pkgwat help changelog
