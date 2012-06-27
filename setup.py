@@ -82,6 +82,7 @@ setup(
         'pkgwat.subcommands': [
             'search = pkgwat.subcommands:Search',
             'info = pkgwat.subcommands:Info',
+            'releases = pkgwat.subcommands:Releases',
         ],
     },
 )

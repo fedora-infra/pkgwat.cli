@@ -67,3 +67,31 @@ class Info(cliff.show.ShowOne):
         package['name'] = args.package
 
         return (package.keys(), package.values())
+
+
+class Releases(cliff.lister.Lister):
+    """ List active releases for a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=10)
+        parser.add_argument('--start-row', dest='start_row',
+                            type=int, default=0)
+        return parser
+
+    def take_action(self, args):
+        columns = ['release', 'stable_version', 'testing_version']
+        result = pkgwat.api.releases(
+            args.package,
+            rows_per_page=args.rows_per_page,
+            start_row=args.start_row,
+        )
+        rows = result['rows']
+        return (
+            columns,
+            [[row[col] for col in columns] for row in rows],
+        )
