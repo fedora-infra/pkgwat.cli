@@ -3,7 +3,24 @@ import collections
 import json
 import requests
 
+import pkgwat
 import pkgwat.utils
+
+import requests.defaults
+requests.defaults.defaults['base_headers']['User-Agent'] = \
+        'pkgwat/' + pkgwat.__version__
+
+
+# TODO -- Tie this into cliff's verbosity options
+DEBUG_REQUESTS = False
+if DEBUG_REQUESTS:
+    import sys
+
+    class myobj(object):
+        def write(self, message):
+            print "DEBUG:", message
+
+    requests.defaults.defaults['verbose'] = myobj()
 
 
 BASE_URL = "https://apps.fedoraproject.org/packages/fcomm_connector"
@@ -32,6 +49,21 @@ bodhi_statuses = [
     "testing",
     "pending",
     "obsolete",
+]
+
+yum_releases = [
+    'Rawhide',
+    'Fedora 16',
+    'Fedora 16 Testing',
+    'Fedora 15',
+    'Fedora 15 Testing',
+    'Fedora 14',
+    'Fedora 14 Testing',
+]
+
+yum_arches = [
+    'x86_64',
+    'i686',
 ]
 
 
@@ -118,4 +150,33 @@ def updates(package, release="all", status="all", rows_per_page=10,
 
     return _make_request(path, query, strip_tags)
 
-# TODO -- write the bugs query
+
+def bugs(package, rows_per_page=10, start_row=0, strip_tags=True):
+    raise NotImplementedError
+
+
+def contents(package, arch="x86_64", release="Rawhide", strip_tags=True):
+    # This one behaves a little differently
+
+    if release not in yum_releases:
+        raise ValueError("Invalid yum release. %r %r" % (
+            release, yum_releases))
+
+    if arch not in yum_arches:
+        raise ValueError("Invalid yum arch.  %r %r" % (
+            arch, yum_arches))
+
+    path = "yum/get_file_tree"
+    query = {
+        "package": package,
+        "arch": arch,
+        "repo": release,
+    }
+    url = "/".join([BASE_URL, path])
+    response = requests.get(url, params=query)
+    d = json.loads(response.text)
+
+    if strip_tags:
+        d = pkgwat.utils.strip_tags(d)
+
+    return d

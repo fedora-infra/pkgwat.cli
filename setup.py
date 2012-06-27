@@ -86,6 +86,7 @@ setup(
             'builds = pkgwat.subcommands:Builds',
             'updates = pkgwat.subcommands:Updates',
             'bugs = pkgwat.subcommands:Bugs',
+            'contents = pkgwat.subcommands:Contents',
         ],
     },
 )

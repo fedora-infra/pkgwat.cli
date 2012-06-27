@@ -1,4 +1,5 @@
 import logging
+import sys
 
 import pkgwat.api
 
@@ -189,3 +190,40 @@ class Bugs(FCommLister):
         raise NotImplementedError(
             "We need to fix a bug in the upstream webapp first.  Coming soon!"
         )
+
+
+class Contents(cliff.command.Command):
+    """ Show contents of a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--arch', dest='arch', default='x86_64',
+                            help="One of %s" % (
+                                ', '.join(pkgwat.api.yum_arches)))
+        parser.add_argument('--release', dest='release', default='Rawhide',
+                            help="One of %s" % (
+                                ', '.join(pkgwat.api.yum_releases)))
+        return parser
+
+    def take_action(self, args):
+        result = pkgwat.api.contents(
+            args.package,
+            arch=args.arch,
+            release=args.release,
+        )
+        self._recursive_print(result)
+        sys.exit(0)
+
+    def _recursive_print(self, d, prefix='/'):
+        if type(d) == list:
+            [self._recursive_print(element) for element in d]
+
+        if type(d) == dict:
+            filename = prefix + d['data']['title']
+            if 'children' not in d:
+                sys.stdout.write(filename + "\n")
+            for child in d.get('children', []):
+                self._recursive_print(child, prefix=filename + '/')
