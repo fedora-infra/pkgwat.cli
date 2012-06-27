@@ -12,6 +12,7 @@ class FCommLister(cliff.lister.Lister):
 
     def get_parser(self, prog_name):
         parser = super(FCommLister, self).get_parser(prog_name)
+        parser.add_argument('package')
         parser.add_argument('--rows-per-page', dest='rows_per_page',
                             type=int, default=37)
         parser.add_argument('--start-row', dest='start_row',
@@ -28,15 +29,10 @@ class Search(FCommLister):
 
     log = logging.getLogger(__name__)
 
-    def get_parser(self, prog_name):
-        parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('pattern')
-        return parser
-
     def take_action(self, args):
         columns = ['name', 'summary']
         result = pkgwat.api.search(
-            args.pattern,
+            args.package,
             rows_per_page=args.rows_per_page,
             start_row=args.start_row,
         )
@@ -83,11 +79,6 @@ class Releases(FCommLister):
 
     log = logging.getLogger(__name__)
 
-    def get_parser(self, prog_name):
-        parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('package')
-        return parser
-
     def take_action(self, args):
         columns = ['release', 'stable_version', 'testing_version']
         result = pkgwat.api.releases(
@@ -109,7 +100,6 @@ class Builds(FCommLister):
 
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('package')
         parser.add_argument('--state', dest='state', default='all',
                            help="One of %s" % (
                                ', '.join(pkgwat.api.koji_build_states)))
@@ -145,7 +135,6 @@ class Updates(FCommLister):
 
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('package')
         parser.add_argument('--release', dest='release', default='all',
                            help="One of %s" % (
                                ', '.join(pkgwat.api.bodhi_releases)))
@@ -181,11 +170,6 @@ class Bugs(FCommLister):
 
     log = logging.getLogger(__name__)
 
-    def get_parser(self, prog_name):
-        parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('package')
-        return parser
-
     def take_action(self, args):
         raise NotImplementedError(
             "We need to fix a bug in the upstream webapp first.  Coming soon!"
@@ -199,7 +183,6 @@ class Contents(cliff.command.Command):
 
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('package')
         parser.add_argument('--arch', dest='arch', default='x86_64',
                             help="One of %s" % (
                                 ', '.join(pkgwat.api.yum_arches)))
@@ -233,11 +216,6 @@ class Changelog(FCommLister):
     """ Show the changelog for a package """
 
     log = logging.getLogger(__name__)
-
-    def get_parser(self, prog_name):
-        parser = super(type(self), self).get_parser(prog_name)
-        parser.add_argument('package')
-        return parser
 
     def take_action(self, args):
         columns = ['display_date', 'author', 'version', 'text']
