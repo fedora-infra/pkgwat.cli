@@ -13,7 +13,7 @@ class FCommLister(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(FCommLister, self).get_parser(prog_name)
         parser.add_argument('--rows-per-page', dest='rows_per_page',
-                            type=int, default=10)
+                            type=int, default=37)
         parser.add_argument('--start-row', dest='start_row',
                             type=int, default=0)
         return parser
