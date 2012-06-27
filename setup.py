@@ -77,12 +77,13 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'pkg-wat = pkgwat.main:main'
+            'pkgwat = pkgwat.main:main'
         ],
         'pkgwat.subcommands': [
             'search = pkgwat.subcommands:Search',
             'info = pkgwat.subcommands:Info',
             'releases = pkgwat.subcommands:Releases',
+            'builds = pkgwat.subcommands:Builds',
         ],
     },
 )

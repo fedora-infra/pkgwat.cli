@@ -95,3 +95,48 @@ class Releases(cliff.lister.Lister):
             columns,
             [[row[col] for col in columns] for row in rows],
         )
+
+
+class Builds(cliff.lister.Lister):
+    """ List active releases for a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--state', dest='state', default='all',
+                           help="One of %s" % (
+                               ', '.join(pkgwat.api.koji_build_states)))
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=10)
+        parser.add_argument('--start-row', dest='start_row',
+                            type=int, default=0)
+        return parser
+
+    def take_action(self, args):
+        columns = [
+            'build id',
+            'name-version-release',
+            'state',
+            'build time',
+            'when',
+            'owner',
+        ]
+        result = pkgwat.api.builds(
+            args.package,
+            args.state,
+            rows_per_page=args.rows_per_page,
+            start_row=args.start_row,
+        )['rows']
+        return (
+            columns,
+            [[
+                build['build_id'],
+                build['nvr'],
+                build['state_str'],
+                build['completion_time_display']['elapsed'],
+                build['completion_time_display']['when'],
+                build['owner_name'],
+            ] for build in result]
+        )
