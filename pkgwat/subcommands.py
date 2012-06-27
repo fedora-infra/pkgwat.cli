@@ -6,7 +6,19 @@ import cliff.lister
 import cliff.show
 
 
-class Search(cliff.lister.Lister):
+class FCommLister(cliff.lister.Lister):
+    """ Base Lister for fcomm_connector aware commands. """
+
+    def get_parser(self, prog_name):
+        parser = super(FCommLister, self).get_parser(prog_name)
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=10)
+        parser.add_argument('--start-row', dest='start_row',
+                            type=int, default=0)
+        return parser
+
+
+class Search(FCommLister):
     """ Show a list of packages that match a pattern.
 
     You can improve the search by tagging packages at
@@ -18,10 +30,6 @@ class Search(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('pattern')
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
-                            type=int, default=10)
-        parser.add_argument('--start-row', dest='start_row',
-                            type=int, default=0)
         return parser
 
     def take_action(self, args):
@@ -69,7 +77,7 @@ class Info(cliff.show.ShowOne):
         return (package.keys(), package.values())
 
 
-class Releases(cliff.lister.Lister):
+class Releases(FCommLister):
     """ List active releases for a package """
 
     log = logging.getLogger(__name__)
@@ -77,10 +85,6 @@ class Releases(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('package')
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
-                            type=int, default=10)
-        parser.add_argument('--start-row', dest='start_row',
-                            type=int, default=0)
         return parser
 
     def take_action(self, args):
@@ -97,7 +101,7 @@ class Releases(cliff.lister.Lister):
         )
 
 
-class Builds(cliff.lister.Lister):
+class Builds(FCommLister):
     """ List koji builds for a package """
 
     log = logging.getLogger(__name__)
@@ -108,10 +112,6 @@ class Builds(cliff.lister.Lister):
         parser.add_argument('--state', dest='state', default='all',
                            help="One of %s" % (
                                ', '.join(pkgwat.api.koji_build_states)))
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
-                            type=int, default=10)
-        parser.add_argument('--start-row', dest='start_row',
-                            type=int, default=0)
         return parser
 
     def take_action(self, args):
@@ -137,7 +137,7 @@ class Builds(cliff.lister.Lister):
         )
 
 
-class Updates(cliff.lister.Lister):
+class Updates(FCommLister):
     """ List bodhi updates for a package """
 
     log = logging.getLogger(__name__)
@@ -151,10 +151,6 @@ class Updates(cliff.lister.Lister):
         parser.add_argument('--state', dest='status', default='all',
                            help="One of %s" % (
                                ', '.join(pkgwat.api.bodhi_statuses)))
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
-                            type=int, default=10)
-        parser.add_argument('--start-row', dest='start_row',
-                            type=int, default=0)
         return parser
 
     def take_action(self, args):
@@ -178,7 +174,8 @@ class Updates(cliff.lister.Lister):
             ] for update in rows]
         )
 
-class Bugs(cliff.lister.Lister):
+
+class Bugs(FCommLister):
     """ List bugs for a package """
 
     log = logging.getLogger(__name__)
@@ -186,10 +183,6 @@ class Bugs(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('package')
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
-                            type=int, default=10)
-        parser.add_argument('--start-row', dest='start_row',
-                            type=int, default=0)
         return parser
 
     def take_action(self, args):
