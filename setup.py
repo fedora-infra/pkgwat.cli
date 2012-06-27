@@ -81,6 +81,7 @@ setup(
         ],
         'pkgwat.subcommands': [
             'search = pkgwat.subcommands:Search',
+            'info = pkgwat.subcommands:Info',
         ],
     },
 )

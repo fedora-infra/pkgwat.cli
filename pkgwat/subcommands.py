@@ -1,25 +1,27 @@
 import logging
-import os
 
 import pkgwat.api
 
 import cliff.lister
+import cliff.show
 
 
 class Search(cliff.lister.Lister):
     """ Show a list of packages that match a pattern.
 
-    Remember, you can improve the search by tagging packages at
+    You can improve the search by tagging packages at
     http://apps.fedoraproject.org/tagger
     """
 
     log = logging.getLogger(__name__)
 
     def get_parser(self, prog_name):
-        parser = super(Search, self).get_parser(prog_name)
+        parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('pattern')
-        parser.add_argument('--rows-per-page', dest='rows_per_page', type=int, default=10)
-        parser.add_argument('--start-row', dest='start_row', type=int, default=0)
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=10)
+        parser.add_argument('--start-row', dest='start_row',
+                            type=int, default=0)
         return parser
 
     def take_action(self, args):
@@ -34,3 +36,34 @@ class Search(cliff.lister.Lister):
             columns,
             [[row[col] for col in columns] for row in rows],
         )
+
+
+class Info(cliff.show.ShowOne):
+    """ Show details about a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        return parser
+
+    def take_action(self, args):
+        result = pkgwat.api.search(
+            args.package,
+            rows_per_page=1,
+            start_row=0,
+        )
+
+        if not result['rows']:
+            raise IndexError("No such package found.")
+
+        package = result['rows'][0]
+
+        package['link'] = "https://apps.fedoraproject.org/packages/%s" % \
+                package['link']
+        del package['sub_pkgs']  # TODO -- handle sub packages correctly.
+        del package['icon']  # TODO -- use python-fabulous
+        package['name'] = args.package
+
+        return (package.keys(), package.values())
