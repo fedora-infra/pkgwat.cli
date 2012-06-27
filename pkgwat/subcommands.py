@@ -177,3 +177,22 @@ class Updates(cliff.lister.Lister):
                 update['date_pushed_display'],
             ] for update in rows]
         )
+
+class Bugs(cliff.lister.Lister):
+    """ List bugs for a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=10)
+        parser.add_argument('--start-row', dest='start_row',
+                            type=int, default=0)
+        return parser
+
+    def take_action(self, args):
+        raise NotImplementedError(
+            "We need to fix a bug in the upstream webapp first.  Coming soon!"
+        )

@@ -117,3 +117,5 @@ def updates(package, release="all", status="all", rows_per_page=10,
     }
 
     return _make_request(path, query, strip_tags)
+
+# TODO -- write the bugs query
