@@ -28,17 +28,6 @@ requires = [
     'requests',
 ]
 
-if sys.version_info[0] == 3:
-    requires.extend([
-        'beautifulsoup4',
-    ])
-elif sys.version_info[0] == 2:
-    requires.extend([
-        'BeautifulSoup',
-    ])
-else:
-    raise RuntimeError("Unsupported python version.")
-
 
 from pkgwat import (
     __name__,
@@ -65,6 +54,8 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.2",
+        "Topic :: System :: Archiving :: Packaging",
+        "Development Status :: 4 - Beta",
     ],
     install_requires=requires,
     tests_require=[
@@ -77,10 +68,17 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'pkg-wat = pkgwat.main:main'
+            'pkgwat = pkgwat.main:main'
         ],
         'pkgwat.subcommands': [
             'search = pkgwat.subcommands:Search',
+            'info = pkgwat.subcommands:Info',
+            'releases = pkgwat.subcommands:Releases',
+            'builds = pkgwat.subcommands:Builds',
+            'updates = pkgwat.subcommands:Updates',
+            'bugs = pkgwat.subcommands:Bugs',
+            'contents = pkgwat.subcommands:Contents',
+            'changelog = pkgwat.subcommands:Changelog',
         ],
     },
 )
