@@ -17,6 +17,23 @@ koji_build_states = collections.OrderedDict((
     ('deleted', '2'),
 ))
 
+bodhi_releases = [
+    "all",
+    "f17",
+    "f16",
+    "f15",
+    "el6",
+    "el5",
+]
+
+bodhi_statuses = [
+    "all",
+    "stable",
+    "testing",
+    "pending",
+    "obsolete",
+]
+
 
 def _make_request(path, query, strip_tags):
     query_as_json = json.dumps(query)
@@ -63,6 +80,37 @@ def builds(package, state='all', rows_per_page=10,
         "filters": {
             "package": package,
             "state": state,
+        },
+        "rows_per_page": rows_per_page,
+        "start_row": start_row,
+    }
+
+    return _make_request(path, query, strip_tags)
+
+
+def updates(package, release="all", status="all", rows_per_page=10,
+             start_row=0, strip_tags=True):
+
+    if release not in bodhi_releases:
+        raise ValueError("Invalid bodhi release. %r %r" % (
+            release, bodhi_releases))
+
+    if status not in bodhi_statuses:
+        raise ValueError("Invalid bodhi status. %r %r" % (
+            status, bodhi_statuses))
+
+    if release == "all":
+        release = ""
+
+    if status == "all":
+        status = ""
+
+    path = "bodhi/query/query_updates"
+    query = {
+        "filters": {
+            "package": package,
+            "release": release,
+            "status": status,
         },
         "rows_per_page": rows_per_page,
         "start_row": start_row,

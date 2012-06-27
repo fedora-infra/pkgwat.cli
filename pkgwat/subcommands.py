@@ -98,7 +98,7 @@ class Releases(cliff.lister.Lister):
 
 
 class Builds(cliff.lister.Lister):
-    """ List active releases for a package """
+    """ List koji builds for a package """
 
     log = logging.getLogger(__name__)
 
@@ -115,20 +115,15 @@ class Builds(cliff.lister.Lister):
         return parser
 
     def take_action(self, args):
-        columns = [
-            'build id',
-            'name-version-release',
-            'state',
-            'build time',
-            'when',
-            'owner',
-        ]
+        columns = ['build id', 'name-version-release', 'state',
+                   'build time', 'when', 'owner']
         result = pkgwat.api.builds(
             args.package,
             args.state,
             rows_per_page=args.rows_per_page,
             start_row=args.start_row,
-        )['rows']
+        )
+        rows = result['rows']
         return (
             columns,
             [[
@@ -138,5 +133,47 @@ class Builds(cliff.lister.Lister):
                 build['completion_time_display']['elapsed'],
                 build['completion_time_display']['when'],
                 build['owner_name'],
-            ] for build in result]
+            ] for build in rows]
+        )
+
+
+class Updates(cliff.lister.Lister):
+    """ List bodhi updates for a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--release', dest='release', default='all',
+                           help="One of %s" % (
+                               ', '.join(pkgwat.api.bodhi_releases)))
+        parser.add_argument('--state', dest='status', default='all',
+                           help="One of %s" % (
+                               ', '.join(pkgwat.api.bodhi_statuses)))
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=10)
+        parser.add_argument('--start-row', dest='start_row',
+                            type=int, default=0)
+        return parser
+
+    def take_action(self, args):
+        columns = ['id', 'status', 'karma', 'submitted', 'pushed']
+        result = pkgwat.api.updates(
+            args.package,
+            status=args.status,
+            release=args.release,
+            rows_per_page=args.rows_per_page,
+            start_row=args.start_row,
+        )
+        rows = result['rows']
+        return (
+            columns,
+            [[
+                update['id'],
+                update['status'],
+                update['karma_str'] + ", " + update['karma_level'],
+                update['date_submitted_display'],
+                update['date_pushed_display'],
+            ] for update in rows]
         )
