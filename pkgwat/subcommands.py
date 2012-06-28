@@ -241,6 +241,7 @@ class Contents(cliff.command.Command):
 
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument("package")
         parser.add_argument('--arch', dest='arch', default='x86_64',
                             help="One of %s" % (
                                 ', '.join(pkgwat.api.yum_arches)))
