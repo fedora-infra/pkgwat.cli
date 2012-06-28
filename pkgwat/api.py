@@ -18,7 +18,7 @@ if DEBUG_REQUESTS:
 
     class myobj(object):
         def write(self, message):
-            print "DEBUG:", message
+            print("DEBUG:", message)
 
     requests.defaults.defaults['verbose'] = myobj()
 
