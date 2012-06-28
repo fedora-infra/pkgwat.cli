@@ -197,7 +197,7 @@ def contents(package, arch="x86_64", release="Rawhide", strip_tags=True):
     }
     url = "/".join([BASE_URL, path])
     response = requests.get(url, params=query)
-    d = json.loads(response.text)
+    d = response.json
 
     if strip_tags:
         d = pkgwat.utils.strip_tags(d)
