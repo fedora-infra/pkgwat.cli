@@ -170,9 +170,25 @@ class Bugs(FCommLister):
 
     log = logging.getLogger(__name__)
 
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('--release', dest='release', default='all',
+                           help="One of %s" % (
+                               ', '.join(pkgwat.api.bugzilla_releases)))
+        return parser
+
     def take_action(self, args):
-        raise NotImplementedError(
-            "We need to fix a bug in the upstream webapp first.  Coming soon!"
+        columns = ['id', 'description', 'status', 'release']
+        result = pkgwat.api.bugs(
+            args.package,
+            release=args.release,
+            rows_per_page=args.rows_per_page,
+            start_row=args.start_row,
+        )
+        rows = result['rows']
+        return (
+            columns,
+            [[row[col] for col in columns] for row in rows],
         )
 
 

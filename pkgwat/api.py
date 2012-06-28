@@ -66,6 +66,15 @@ yum_arches = [
     'i686',
 ]
 
+bugzilla_releases = collections.OrderedDict((
+    ('all', ''),
+    ('f17', '17'),
+    ('f16', '16'),
+    ('f15', '15'),
+    ('el6', '6'),
+    ('el5', '5'),
+))
+
 
 def _make_request(path, query, strip_tags):
     query_as_json = json.dumps(query)
@@ -151,8 +160,22 @@ def updates(package, release="all", status="all", rows_per_page=10,
     return _make_request(path, query, strip_tags)
 
 
-def bugs(package, rows_per_page=10, start_row=0, strip_tags=True):
-    raise NotImplementedError
+def bugs(package, release="all", rows_per_page=10, start_row=0, strip_tags=True):
+
+    if release not in bugzilla_releases.values():
+        release = bugzilla_releases[release]
+
+    path = "bugzilla/query/query_bugs"
+    query = {
+        "filters": {
+            "package": package,
+            "version": release,
+        },
+        "rows_per_page": rows_per_page,
+        "start_row": start_row,
+    }
+
+    return _make_request(path, query, strip_tags)
 
 
 def contents(package, arch="x86_64", release="Rawhide", strip_tags=True):
