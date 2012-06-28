@@ -74,6 +74,48 @@ class Info(cliff.show.ShowOne):
         return (package.keys(), package.values())
 
 
+class Icon(cliff.command.Command):
+    """ Show the icon for a package """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(type(self), self).get_parser(prog_name)
+        parser.add_argument('package')
+        return parser
+
+    def take_action(self, args):
+        import os
+        import requests
+        import tempfile
+        import fabulous.image
+
+        result = pkgwat.api.search(
+            args.package,
+            rows_per_page=1,
+            start_row=0,
+        )
+
+        if not result['rows']:
+            raise IndexError("No such package found.")
+
+        package = result['rows'][0]
+
+        tmpl = "https://apps.fedoraproject.org/packages/images/icons/%s.png"
+        url = tmpl % package['icon']
+        response = requests.get(url)
+
+        fd, filename = tempfile.mkstemp(suffix='.png')
+
+        with open(filename, 'w') as f:
+            f.write(response.raw.data)
+
+        fab = fabulous.image.Image(filename)
+        os.remove(filename)
+
+        print(fab)
+
+
 class Releases(FCommLister):
     """ List active releases for a package """
 

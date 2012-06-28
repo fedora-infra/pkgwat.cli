@@ -28,6 +28,26 @@ requires = [
     'requests',
 ]
 
+subcommands = [
+    'search = pkgwat.subcommands:Search',
+    'info = pkgwat.subcommands:Info',
+    'releases = pkgwat.subcommands:Releases',
+    'builds = pkgwat.subcommands:Builds',
+    'updates = pkgwat.subcommands:Updates',
+    'bugs = pkgwat.subcommands:Bugs',
+    'contents = pkgwat.subcommands:Contents',
+    'changelog = pkgwat.subcommands:Changelog',
+]
+
+if sys.version_info[0] == 2:
+    # TODO -- Now accepting volunteers to port fabulous to Python 3
+    requires.extend([
+        'fabulous',
+        'PIL',
+    ])
+    subcommands.extend([
+        'icon = pkgwat.subcommands:Icon',
+    ])
 
 from pkgwat import (
     __name__,
@@ -70,15 +90,6 @@ setup(
         'console_scripts': [
             'pkgwat = pkgwat.main:main'
         ],
-        'pkgwat.subcommands': [
-            'search = pkgwat.subcommands:Search',
-            'info = pkgwat.subcommands:Info',
-            'releases = pkgwat.subcommands:Releases',
-            'builds = pkgwat.subcommands:Builds',
-            'updates = pkgwat.subcommands:Updates',
-            'bugs = pkgwat.subcommands:Bugs',
-            'contents = pkgwat.subcommands:Contents',
-            'changelog = pkgwat.subcommands:Changelog',
-        ],
+        'pkgwat.subcommands': subcommands,
     },
 )
