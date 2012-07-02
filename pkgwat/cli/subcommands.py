@@ -1,7 +1,7 @@
 import logging
 import sys
 
-from pkgwat.api import api
+from pkgwat import api
 
 import cliff.lister
 import cliff.show
