@@ -5,11 +5,9 @@ import cliff.app
 import cliff.commandmanager
 from cliff.commandmanager import CommandManager
 
-from pkgwat.cli import (
-    __version__,
-    __description__,
-)
-
+# TODO -- how do we dynamically link these with setup.py?
+__version__ = 0.1
+__description__ = "CLI tool for querying the fedora packages webapp"
 
 class PkgWat(cliff.app.App):
 
