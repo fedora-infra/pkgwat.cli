@@ -1,7 +1,7 @@
 import logging
 import sys
 
-import pkgwat.api
+from pkgwat.api import api
 
 import cliff.lister
 import cliff.show
@@ -31,7 +31,7 @@ class Search(FCommLister):
 
     def take_action(self, args):
         columns = ['name', 'summary']
-        result = pkgwat.api.search(
+        result = api.search(
             args.package,
             rows_per_page=args.rows_per_page,
             start_row=args.start_row,
@@ -54,7 +54,7 @@ class Info(cliff.show.ShowOne):
         return parser
 
     def take_action(self, args):
-        result = pkgwat.api.search(
+        result = api.search(
             args.package,
             rows_per_page=1,
             start_row=0,
@@ -90,7 +90,7 @@ class Icon(cliff.command.Command):
         import tempfile
         import fabulous.image
 
-        result = pkgwat.api.search(
+        result = api.search(
             args.package,
             rows_per_page=1,
             start_row=0,
@@ -123,7 +123,7 @@ class Releases(FCommLister):
 
     def take_action(self, args):
         columns = ['release', 'stable_version', 'testing_version']
-        result = pkgwat.api.releases(
+        result = api.releases(
             args.package,
             rows_per_page=args.rows_per_page,
             start_row=args.start_row,
@@ -144,13 +144,13 @@ class Builds(FCommLister):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('--state', dest='state', default='all',
                            help="One of %s" % (
-                               ', '.join(pkgwat.api.koji_build_states)))
+                               ', '.join(api.koji_build_states)))
         return parser
 
     def take_action(self, args):
         columns = ['build id', 'name-version-release', 'state',
                    'build time', 'when', 'owner']
-        result = pkgwat.api.builds(
+        result = api.builds(
             args.package,
             args.state,
             rows_per_page=args.rows_per_page,
@@ -179,15 +179,15 @@ class Updates(FCommLister):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('--release', dest='release', default='all',
                            help="One of %s" % (
-                               ', '.join(pkgwat.api.bodhi_releases)))
+                               ', '.join(api.bodhi_releases)))
         parser.add_argument('--state', dest='status', default='all',
                            help="One of %s" % (
-                               ', '.join(pkgwat.api.bodhi_statuses)))
+                               ', '.join(api.bodhi_statuses)))
         return parser
 
     def take_action(self, args):
         columns = ['id', 'status', 'karma', 'submitted', 'pushed']
-        result = pkgwat.api.updates(
+        result = api.updates(
             args.package,
             status=args.status,
             release=args.release,
@@ -216,12 +216,12 @@ class Bugs(FCommLister):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument('--release', dest='release', default='all',
                            help="One of %s" % (
-                               ', '.join(pkgwat.api.bugzilla_releases)))
+                               ', '.join(api.bugzilla_releases)))
         return parser
 
     def take_action(self, args):
         columns = ['id', 'description', 'status', 'release']
-        result = pkgwat.api.bugs(
+        result = api.bugs(
             args.package,
             release=args.release,
             rows_per_page=args.rows_per_page,
@@ -244,14 +244,14 @@ class Contents(cliff.command.Command):
         parser.add_argument("package")
         parser.add_argument('--arch', dest='arch', default='x86_64',
                             help="One of %s" % (
-                                ', '.join(pkgwat.api.yum_arches)))
+                                ', '.join(api.yum_arches)))
         parser.add_argument('--release', dest='release', default='Rawhide',
                             help="One of %s" % (
-                                ', '.join(pkgwat.api.yum_releases)))
+                                ', '.join(api.yum_releases)))
         return parser
 
     def take_action(self, args):
-        result = pkgwat.api.contents(
+        result = api.contents(
             args.package,
             arch=args.arch,
             release=args.release,
@@ -278,7 +278,7 @@ class Changelog(FCommLister):
 
     def take_action(self, args):
         columns = ['display_date', 'author', 'version', 'text']
-        result = pkgwat.api.changelog(
+        result = api.changelog(
             args.package,
             rows_per_page=args.rows_per_page,
             start_row=args.start_row,

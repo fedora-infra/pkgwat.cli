@@ -23,20 +23,20 @@ except ImportError:
     pass
 
 requires = [
+    'pkgwat.api >= 0.3',
     'six',  # For python3 support
     'cliff',
-    'requests',
 ]
 
 subcommands = [
-    'search = pkgwat.subcommands:Search',
-    'info = pkgwat.subcommands:Info',
-    'releases = pkgwat.subcommands:Releases',
-    'builds = pkgwat.subcommands:Builds',
-    'updates = pkgwat.subcommands:Updates',
-    'bugs = pkgwat.subcommands:Bugs',
-    'contents = pkgwat.subcommands:Contents',
-    'changelog = pkgwat.subcommands:Changelog',
+    'search = pkgwat.cli.subcommands:Search',
+    'info = pkgwat.cli.subcommands:Info',
+    'releases = pkgwat.cli.subcommands:Releases',
+    'builds = pkgwat.cli.subcommands:Builds',
+    'updates = pkgwat.cli.subcommands:Updates',
+    'bugs = pkgwat.cli.subcommands:Bugs',
+    'contents = pkgwat.cli.subcommands:Contents',
+    'changelog = pkgwat.cli.subcommands:Changelog',
 ]
 
 if sys.version_info[0] == 2:
@@ -46,18 +46,15 @@ if sys.version_info[0] == 2:
         'PIL',
     ])
     subcommands.extend([
-        'icon = pkgwat.subcommands:Icon',
+        'icon = pkgwat.cli.subcommands:Icon',
     ])
 
-from pkgwat import (
-    __name__,
-    __version__,
-    __description__,
-    __author__,
-    __author_email__,
-    __url__,
-)
-
+__name__ = 'pkgwat.cli'
+__version__ = "0.2"
+__description__ = "CLI tool for querying the fedora packages webapp"
+__author__ = "Ralph Bean"
+__author_email__ = "rbean@redhat.com"
+__url__ = "http://github.com/ralphbean/pkgwat.cli"
 
 setup(
     name=__name__,
@@ -83,12 +80,13 @@ setup(
         'mock',
     ],
     test_suite='nose.collector',
-    packages=['pkgwat'],
+    packages=['pkgwat', 'pkgwat.cli'],
+    namespace_packages=['pkgwat'],
     include_package_data=True,
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'pkgwat = pkgwat.main:main'
+            'pkgwat = pkgwat.cli.main:main'
         ],
         'pkgwat.subcommands': subcommands,
     },
