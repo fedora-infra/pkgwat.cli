@@ -5,7 +5,7 @@ import cliff.app
 import cliff.commandmanager
 from cliff.commandmanager import CommandManager
 
-from pkgwat import (
+from pkgwat.cli import (
     __version__,
     __description__,
 )

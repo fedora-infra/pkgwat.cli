@@ -14,10 +14,11 @@ You can make its search even better by `helping us tag packages
 Python API
 ----------
 
-There is one.
+There is one.  You can download it indepenant of the CLI tools at
+http://pypi.python.org/pypi/pkgwat.api
 
->>> import pkgwat.api
->>> results = pkgwat.api.search("nethack")
+>>> from pkgwat.api import api
+>>> results = api.search("nethack")
 >>> results['rows'][0]['summary']
 u'A rogue-like single player dungeon exploration game'
 
