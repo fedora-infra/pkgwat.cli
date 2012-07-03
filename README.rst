@@ -17,7 +17,7 @@ Python API
 There is one.  You can download it indepenant of the CLI tools at
 http://pypi.python.org/pypi/pkgwat.api
 
->>> from pkgwat.api import api
+>>> from pkgwat import api
 >>> results = api.search("nethack")
 >>> results['rows'][0]['summary']
 u'A rogue-like single player dungeon exploration game'
