@@ -108,7 +108,12 @@ class Icon(cliff.command.Command):
         fd, filename = tempfile.mkstemp(suffix='.png')
 
         with open(filename, 'w') as f:
-            f.write(response.raw.data)
+            if not response.raw.data:
+                # Newer python-requests
+                f.write(response.content)
+            else:
+                # Older python-requests
+                f.write(response.raw.data)
 
         fab = fabulous.image.Image(filename)
         os.remove(filename)
