@@ -1,5 +1,7 @@
 import logging
 import sys
+import codecs
+import locale
 
 import cliff.app
 import cliff.commandmanager
@@ -19,6 +21,8 @@ class PkgWat(cliff.app.App):
             description=__description__,
             version=__version__,
             command_manager=manager,
+            stdout=codecs.getwriter(locale.getpreferredencoding())(sys.stdout),
+            stderr=codecs.getwriter(locale.getpreferredencoding())(sys.stderr),
         )
 
     def initialize_app(self, argv):
