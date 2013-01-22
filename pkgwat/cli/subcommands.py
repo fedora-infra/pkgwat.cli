@@ -203,7 +203,7 @@ class Updates(FCommLister):
         return (
             columns,
             [[
-                update['id'],
+                update['title'],
                 update['status'],
                 update['karma_str'] + ", " + update['karma_level'],
                 update['date_submitted_display'],
