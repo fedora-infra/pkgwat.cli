@@ -207,7 +207,7 @@ class Updates(FCommLister):
                 update['status'],
                 update['karma_str'] + ", " + update['karma_level'],
                 update['date_submitted_display'],
-                update['date_pushed_display'],
+                update.get('date_pushed_display', ''),
             ] for update in rows]
         )
 
