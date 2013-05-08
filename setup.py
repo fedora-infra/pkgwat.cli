@@ -43,7 +43,7 @@ if sys.version_info[0] == 2:
     # TODO -- Now accepting volunteers to port fabulous to Python 3
     requires.extend([
         'fabulous',
-        'PIL',
+        'pillow',
     ])
     subcommands.extend([
         'icon = pkgwat.cli.subcommands:Icon',
