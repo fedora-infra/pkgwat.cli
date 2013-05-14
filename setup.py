@@ -43,14 +43,14 @@ if sys.version_info[0] == 2:
     # TODO -- Now accepting volunteers to port fabulous to Python 3
     requires.extend([
         'fabulous',
-        'PIL',
+        'pillow',
     ])
     subcommands.extend([
         'icon = pkgwat.cli.subcommands:Icon',
     ])
 
 __name__ = 'pkgwat.cli'
-__version__ = "0.5"
+__version__ = "0.6"
 __description__ = "CLI tool for querying the fedora packages webapp"
 __author__ = "Ralph Bean"
 __author_email__ = "rbean@redhat.com"

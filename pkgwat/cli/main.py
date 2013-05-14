@@ -11,6 +11,10 @@ from cliff.commandmanager import CommandManager
 __version__ = 0.3
 __description__ = "CLI tool for querying the fedora packages webapp"
 
+requests_log = logging.getLogger("requests")
+requests_log.setLevel(logging.WARN)
+
+
 class PkgWat(cliff.app.App):
 
     log = logging.getLogger(__name__)
