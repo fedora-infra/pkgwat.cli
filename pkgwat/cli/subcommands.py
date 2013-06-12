@@ -335,6 +335,41 @@ class Changelog(FCommLister):
         )
 
 
+class Dependencies(FCommLister):
+    """Show the dependecies for a package """
+
+    log = logging.getLogger(__name__)
+
+    def take_action(self, args):
+        columns = ['name', 'provided_by']
+        result = api.dependencies(
+            args.package
+        )
+        if not result['rows']:
+            raise IndexError("No such package found.")
+
+        rows = result['rows']
+
+        show = []
+
+        for row in rows:
+            reg = []
+            reg.append(row['name'])
+            prov_temp = ""
+
+            for prov in row['provided_by']:
+                prov_temp += "- "+prov
+                length = len(row['provided_by'])
+                if length > 1 and (row['provided_by'].index(prov)+1) < length:
+                    prov_temp += "\n"
+
+            if len(prov_temp) > 0:
+                reg.append(prov_temp)
+            show.append(reg)
+            del reg
+        return (columns, show)
+
+
 class History(cliff.lister.Lister):
     """ Show the fedmsg history of a package.
 
@@ -367,38 +402,3 @@ class History(cliff.lister.Lister):
                 pkgwat.cli.utils._format_link(message['meta']['link']),
             ] for message in messages],
         )
-
-
-class Dependencies(FCommLister):
-    """Show the dependecies for a package """
-
-    log = logging.getLogger(__name__)
-
-    def take_action(self, args):
-        columns = ['name','provided_by']
-        result = api.dependencies(
-            args.package
-        )
-        if not result['rows']:
-            raise IndexError("No such package found.")
-
-        rows = result['rows']
-
-        show = []
-
-        for row in rows:
-            reg = []
-            reg.append(row['name'])
-            prov_temp = ""
-
-            for prov in row['provided_by']:
-                prov_temp += "- "+prov
-                length = len(row['provided_by'])
-                if length > 1 and (row['provided_by'].index(prov)+1) < length:
-                    prov_temp += "\n"
-
-            if len(prov_temp) > 0:
-                reg.append(prov_temp)
-            show.append(reg)
-            del reg
-        return (columns, show)
