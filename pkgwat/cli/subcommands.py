@@ -3,6 +3,8 @@ import sys
 
 from pkgwat import api
 
+import pkgwat.cli.utils
+
 import cliff.lister
 import cliff.show
 
@@ -292,4 +294,38 @@ class Changelog(FCommLister):
         return (
             columns,
             [[row[col] for col in columns] for row in rows],
+        )
+
+
+class History(cliff.lister.Lister):
+    """ Show the fedmsg history of a package.
+
+    This command queries https://apps.fedoraproject.org/datagrepper/
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(History, self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=30)
+        parser.add_argument('--start-page', dest='page',
+                            type=int, default=1)
+        return parser
+
+    def take_action(self, args):
+        result = api.history(
+            args.package,
+            rows_per_page=args.rows_per_page,
+            page=args.page,
+        )
+        messages = result['raw_messages']
+        return (
+            ['date', 'event', 'link'],
+            [[
+                pkgwat.cli.utils._format_time(message['timestamp']),
+                message['meta']['subtitle'],
+                pkgwat.cli.utils._format_link(message['meta']['link']),
+            ] for message in messages],
         )
