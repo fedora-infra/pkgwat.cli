@@ -23,7 +23,7 @@ except ImportError:
     pass
 
 requires = [
-    'pkgwat.api >= 0.3',
+    'pkgwat.api >= 0.9',
     'six',  # For python3 support
     'cliff',
 ]
@@ -37,6 +37,7 @@ subcommands = [
     'bugs = pkgwat.cli.subcommands:Bugs',
     'contents = pkgwat.cli.subcommands:Contents',
     'changelog = pkgwat.cli.subcommands:Changelog',
+    'history = pkgwat.cli.subcommands:History',
 ]
 
 if sys.version_info[0] == 2:
