@@ -23,7 +23,7 @@ except ImportError:
     pass
 
 requires = [
-    'pkgwat.api >= 0.3',
+    'pkgwat.api >= 0.9',
     'six',  # For python3 support
     'cliff',
 ]
@@ -37,6 +37,7 @@ subcommands = [
     'bugs = pkgwat.cli.subcommands:Bugs',
     'contents = pkgwat.cli.subcommands:Contents',
     'changelog = pkgwat.cli.subcommands:Changelog',
+    'history = pkgwat.cli.subcommands:History',
 ]
 
 if sys.version_info[0] == 2:
@@ -50,7 +51,7 @@ if sys.version_info[0] == 2:
     ])
 
 __name__ = 'pkgwat.cli'
-__version__ = "0.6"
+__version__ = "0.7"
 __description__ = "CLI tool for querying the fedora packages webapp"
 __author__ = "Ralph Bean"
 __author_email__ = "rbean@redhat.com"

@@ -3,6 +3,8 @@ import sys
 
 from pkgwat import api
 
+import pkgwat.cli.utils
+
 import cliff.lister
 import cliff.show
 
@@ -37,6 +39,25 @@ class Search(FCommLister):
             start_row=args.start_row,
         )
         rows = result['rows']
+
+        match = False
+        for pkg in rows:
+
+            if pkg['name'] == args.package:
+                match = True
+
+            for sub_pkg in pkg['sub_pkgs']:
+                if sub_pkg['name'] == args.package:
+                    rows[0]['name'] = sub_pkg['name']
+                    rows[0]['description'] = sub_pkg['description']
+                    rows[0]['summary'] = sub_pkg['summary']
+                    rows[0]['link'] = sub_pkg['link']
+                    match = True
+                    break
+
+        if match is False:
+            raise IndexError("No such package found.")
+
         return (
             columns,
             [[row[col] for col in columns] for row in rows],
@@ -64,6 +85,25 @@ class Info(cliff.show.ShowOne):
             raise IndexError("No such package found.")
 
         package = result['rows'][0]
+
+        match = False
+
+        for pkg in result['rows']:
+            if pkg['name'] == args.package:
+                match = True
+
+            for sub_pkg in pkg['sub_pkgs']:
+                if sub_pkg['name'] == args.package:
+                    package['name'] = sub_pkg['name']
+                    package['description'] = sub_pkg['description']
+                    package['summary'] = sub_pkg['summary']
+                    package['name'] = sub_pkg['name']
+                    package['link'] = sub_pkg['link']
+                    match = True
+                    break
+
+        if match is False:
+            raise IndexError("No such package found.")
 
         package['link'] = "https://apps.fedoraproject.org/packages/%s" % \
                 package['link']
@@ -292,4 +332,38 @@ class Changelog(FCommLister):
         return (
             columns,
             [[row[col] for col in columns] for row in rows],
+        )
+
+
+class History(cliff.lister.Lister):
+    """ Show the fedmsg history of a package.
+
+    This command queries https://apps.fedoraproject.org/datagrepper/
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(History, self).get_parser(prog_name)
+        parser.add_argument('package')
+        parser.add_argument('--rows-per-page', dest='rows_per_page',
+                            type=int, default=30)
+        parser.add_argument('--start-page', dest='page',
+                            type=int, default=1)
+        return parser
+
+    def take_action(self, args):
+        result = api.history(
+            args.package,
+            rows_per_page=args.rows_per_page,
+            page=args.page,
+        )
+        messages = result['raw_messages']
+        return (
+            ['date', 'event', 'link'],
+            [[
+                pkgwat.cli.utils._format_time(message['timestamp']),
+                message['meta']['subtitle'],
+                pkgwat.cli.utils._format_link(message['meta']['link']),
+            ] for message in messages],
         )
