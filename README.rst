@@ -40,15 +40,16 @@ Getting help::
       --debug        show tracebacks on errors
 
     Commands:
-      bugs           List bugs for a package 
-      builds         List koji builds for a package 
-      changelog      Show the changelog for a package 
-      contents       Show contents of a package 
+      bugs           List bugs for a package
+      builds         List koji builds for a package
+      changelog      Show the changelog for a package
+      contents       Show contents of a package
       help           print detailed help for another command
-      info           Show details about a package 
-      releases       List active releases for a package 
+      info           Show details about a package
+      releases       List active releases for a package
       search         Show a list of packages that match a pattern.
-      updates        List bodhi updates for a package 
+      updates        List bodhi updates for a package
+      dependencies   Show the dependencies for un package
 
 You can search for packages::
 
