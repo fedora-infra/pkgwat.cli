@@ -49,7 +49,12 @@ Getting help::
       releases       List active releases for a package
       search         Show a list of packages that match a pattern.
       updates        List bodhi updates for a package
-      dependencies   Show the dependencies for un package
+      dependencies   Show the dependencies for a package
+      dependants     Show packages that dependent on a package
+      provides       Show that which is provided by a given package
+      obsoletes      Show that which is obsoleted by a given package
+      conflicts      Show that which is marked as "conflict" by a given package
+
 
 You can search for packages::
 

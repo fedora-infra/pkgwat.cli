@@ -39,6 +39,10 @@ subcommands = [
     'changelog = pkgwat.cli.subcommands:Changelog',
     'history = pkgwat.cli.subcommands:History',
     'dependencies = pkgwat.cli.subcommands:Dependencies',
+    'dependants = pkgwat.cli.subcommands:Dependants',
+    'provides = pkgwat.cli.subcommands:Provides',
+    'obsoletes = pkgwat.cli.subcommands:Obsoletes',
+    'conflicts = pkgwat.cli.subcommands:Conflicts',
 ]
 
 if sys.version_info[0] == 2:
