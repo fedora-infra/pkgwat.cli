@@ -40,24 +40,6 @@ class Search(FCommLister):
         )
         rows = result['rows']
 
-        match = False
-        for pkg in rows:
-
-            if pkg['name'] == args.package:
-                match = True
-
-            for sub_pkg in pkg['sub_pkgs']:
-                if sub_pkg['name'] == args.package:
-                    rows[0]['name'] = sub_pkg['name']
-                    rows[0]['description'] = sub_pkg['description']
-                    rows[0]['summary'] = sub_pkg['summary']
-                    rows[0]['link'] = sub_pkg['link']
-                    match = True
-                    break
-
-        if match is False:
-            raise IndexError("No such package found.")
-
         return (
             columns,
             [[row[col] for col in columns] for row in rows],
