@@ -38,6 +38,7 @@ subcommands = [
     'contents = pkgwat.cli.subcommands:Contents',
     'changelog = pkgwat.cli.subcommands:Changelog',
     'history = pkgwat.cli.subcommands:History',
+    'dependencies = pkgwat.cli.subcommands:Dependencies',
 ]
 
 if sys.version_info[0] == 2:
@@ -51,7 +52,7 @@ if sys.version_info[0] == 2:
     ])
 
 __name__ = 'pkgwat.cli'
-__version__ = "0.7"
+__version__ = "0.8"
 __description__ = "CLI tool for querying the fedora packages webapp"
 __author__ = "Ralph Bean"
 __author_email__ = "rbean@redhat.com"
