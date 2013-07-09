@@ -38,11 +38,17 @@ class Search(FCommLister):
             rows_per_page=args.rows_per_page,
             start_row=args.start_row,
         )
-        rows = result['rows']
+
+        final_rows = []
+        for row in result['rows']:
+            final_rows.append(row)
+            for sub_package in row['sub_pkgs']:
+                sub_package['name'] = "  " + sub_package['name']
+                final_rows.append(sub_package)
 
         return (
             columns,
-            [[row[col] for col in columns] for row in rows],
+            [[row[col] for col in columns] for row in final_rows],
         )
 
 
