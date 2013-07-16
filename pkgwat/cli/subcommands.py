@@ -369,9 +369,9 @@ class History(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(History, self).get_parser(prog_name)
         parser.add_argument('package')
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
+        parser.add_argument('-n', '--rows-per-page', dest='rows_per_page',
                             type=int, default=30)
-        parser.add_argument('--start-page', dest='page',
+        parser.add_argument('-p', '--start-page', dest='page',
                             type=int, default=1)
         return parser
 
