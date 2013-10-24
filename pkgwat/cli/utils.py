@@ -13,5 +13,7 @@ def _format_time(timestamp):
 
 
 def _format_link(link):
+    if not link:
+        return ''
     response = requests.post("http://ur1.ca/", data=dict(longurl=link))
     return ur1_ca_regexp.search(response.text).groupdict()['shorturl']
