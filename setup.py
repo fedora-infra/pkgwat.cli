@@ -60,7 +60,7 @@ __version__ = "0.8"
 __description__ = "CLI tool for querying the fedora packages webapp"
 __author__ = "Ralph Bean"
 __author_email__ = "rbean@redhat.com"
-__url__ = "http://github.com/ralphbean/pkgwat.cli"
+__url__ = "http://github.com/fedora-infra/pkgwat.cli"
 
 setup(
     name=__name__,
