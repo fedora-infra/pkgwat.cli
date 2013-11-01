@@ -39,6 +39,10 @@ subcommands = [
     'changelog = pkgwat.cli.subcommands:Changelog',
     'history = pkgwat.cli.subcommands:History',
     'dependencies = pkgwat.cli.subcommands:Dependencies',
+    'dependants = pkgwat.cli.subcommands:Dependants',
+    'provides = pkgwat.cli.subcommands:Provides',
+    'obsoletes = pkgwat.cli.subcommands:Obsoletes',
+    'conflicts = pkgwat.cli.subcommands:Conflicts',
 ]
 
 if sys.version_info[0] == 2:
@@ -52,15 +56,14 @@ if sys.version_info[0] == 2:
     ])
 
 __name__ = 'pkgwat.cli'
-__version__ = "0.8"
 __description__ = "CLI tool for querying the fedora packages webapp"
 __author__ = "Ralph Bean"
 __author_email__ = "rbean@redhat.com"
-__url__ = "http://github.com/ralphbean/pkgwat.cli"
+__url__ = "http://github.com/fedora-infra/pkgwat.cli"
 
 setup(
     name=__name__,
-    version=__version__,
+    version='0.9',
     description=__description__,
     long_description=long_description,
     author=__author__,
