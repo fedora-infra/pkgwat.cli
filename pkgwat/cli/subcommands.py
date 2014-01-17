@@ -15,9 +15,9 @@ class FCommLister(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(FCommLister, self).get_parser(prog_name)
         parser.add_argument('package')
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
+        parser.add_argument('-n', '--rows-per-page', dest='rows_per_page',
                             type=int, default=37)
-        parser.add_argument('--start-row', dest='start_row',
+        parser.add_argument('-r', '--start-row', dest='start_row',
                             type=int, default=0)
         return parser
 
@@ -33,9 +33,9 @@ class FCommListerRel(cliff.lister.Lister):
         help="One of %s" % (', '.join(api.yum_arches)))
         parser.add_argument('--pkg-version', dest='version', default=None,
                              help="One of %s" % (', '.join(api.yum_releases)))
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
+        parser.add_argument('-n', '--rows-per-page', dest='rows_per_page',
                              type=int, default=37)
-        parser.add_argument('--start-row', dest='start_row',
+        parser.add_argument('-r', '--start-row', dest='start_row',
                              type=int, default=0)
         return parser
 
@@ -400,9 +400,9 @@ class History(cliff.lister.Lister):
     def get_parser(self, prog_name):
         parser = super(History, self).get_parser(prog_name)
         parser.add_argument('package')
-        parser.add_argument('--rows-per-page', dest='rows_per_page',
+        parser.add_argument('-n', '--rows-per-page', dest='rows_per_page',
                             type=int, default=30)
-        parser.add_argument('--start-page', dest='page',
+        parser.add_argument('-p', '--start-page', dest='page',
                             type=int, default=1)
         return parser
 
