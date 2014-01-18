@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.10
+----
+
+- Add short options for pagination.  Fixes #26. `60518720f <https://github.com/fedora-infra/pkgwat.cli/commit/60518720f5f7ddd536a363948c87c29e87a764af>`_
+- Merge pull request #27 from fedora-infra/feature/short-options `c8e9d350b <https://github.com/fedora-infra/pkgwat.cli/commit/c8e9d350b9d7d981eb63a40ff8b7cd29347b25d1>`_
+
 0.9
 ---
 
