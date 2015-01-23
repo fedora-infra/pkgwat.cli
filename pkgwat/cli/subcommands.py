@@ -337,7 +337,7 @@ class Changelog(FCommLister):
         rows = result['rows']
         return (
             columns,
-            [[row[col] for col in columns] for row in rows],
+            [[row.get(col, '') for col in columns] for row in rows],
         )
 
 
