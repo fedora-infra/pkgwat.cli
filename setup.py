@@ -23,7 +23,7 @@ except ImportError:
     pass
 
 requires = [
-    'pkgwat.api >= 0.10',
+    'pkgwat.api >= 0.11',
     'six',  # For python3 support
     'cliff',
 ]
@@ -38,11 +38,6 @@ subcommands = [
     'contents = pkgwat.cli.subcommands:Contents',
     'changelog = pkgwat.cli.subcommands:Changelog',
     'history = pkgwat.cli.subcommands:History',
-    'dependencies = pkgwat.cli.subcommands:Dependencies',
-    'dependants = pkgwat.cli.subcommands:Dependants',
-    'provides = pkgwat.cli.subcommands:Provides',
-    'obsoletes = pkgwat.cli.subcommands:Obsoletes',
-    'conflicts = pkgwat.cli.subcommands:Conflicts',
 ]
 
 if sys.version_info[0] == 2:
@@ -63,7 +58,7 @@ __url__ = "http://github.com/fedora-infra/pkgwat.cli"
 
 setup(
     name=__name__,
-    version='0.10',
+    version='0.11',
     description=__description__,
     long_description=long_description,
     author=__author__,

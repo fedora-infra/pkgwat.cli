@@ -46,9 +46,9 @@ class PkgWat(cliff.app.App):
             self.command_manager.find_command(argv)
         except ValueError as e:
             if "Unknown command" in str(e):
-                print "%r is an unknown command" % ' '.join(argv)
-                print "Try \"pkgwat -h\""
-                sys.exit(1)
+                print("%r is an unknown command" % ' '.join(argv))
+                print("Defaulting to 'info %s'" % ' '.join(argv))
+                return super(PkgWat, self).run_subcommand(['info'] + argv)
             else:
                 raise
 

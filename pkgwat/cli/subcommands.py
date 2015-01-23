@@ -337,56 +337,8 @@ class Changelog(FCommLister):
         rows = result['rows']
         return (
             columns,
-            [[row[col] for col in columns] for row in rows],
+            [[row.get(col, '') for col in columns] for row in rows],
         )
-
-
-class Dependencies(FCommLister):
-    """Show the dependecies for a package """
-
-    log = logging.getLogger(__name__)
-
-    def take_action(self, args):
-        columns = ['name', 'provided_by']
-        result = []
-        try:
-            result = api.dependencies(
-                args.package
-            )
-        except ValueError:
-            raise ValueError("Error loading the data for this element.")
-
-        if not result['rows']:
-            raise IndexError("No such package found.")
-
-        rows = result['rows']
-
-        show = []
-
-        for row in rows:
-            reg = []
-
-            if row['ops'] == None:
-                reg.append(row['name'])
-            else:
-                reg.append(row['name'] + " " + row['ops'] + " " +
-                           row['version'])
-
-            prov_temp = ""
-
-            for prov in row['provided_by']:
-                prov_temp += "- "+prov
-                length = len(row['provided_by'])
-                if length > 1 and (row['provided_by'].index(prov)+1) < length:
-                    prov_temp += "\n"
-
-            if len(prov_temp) > 0:
-                reg.append(prov_temp)
-
-            show.append(reg)
-            del reg
-
-        return (columns, show)
 
 
 class History(cliff.lister.Lister):
@@ -423,141 +375,190 @@ class History(cliff.lister.Lister):
         )
 
 
-class Dependants(FCommLister):
 
-    log = logging.getLogger(__name__)
-
-    def take_action(self, args):
-        columns = ['required by','detail']
-        result = []
-        try:
-            result = api.dependants(
-                args.package,
-                rows_per_page=args.rows_per_page,
-                start_row=args.start_row,
-            )
-        except ValueError:
-            raise ValueError("Error loading the data for this element.")
-
-        if not result['rows']:
-            raise IndexError("No such package found.")
-
-        rows = result['rows']
-        detail = []
-
-        for row in rows:
-            temp = []
-            temp.append(row['name'])
-            version = ""
-            name = ""
-            ops = ""
-
-            for key, val in row['requires'].iteritems():
-                if key == "version":
-                    version = val
-                if key == 'ops' and val != None:
-                    ops = val
-                if key == 'name':
-                    name = val
-
-            temp.append(name + " " + ops + " " + version)
-            detail.append(temp)
-
-        return (columns, detail)
-
-
-
-class Provides(FCommListerRel):
-
-    log = logging.getLogger(__name__)
-
-
-    def take_action(self, args):
-        columns = ['Provides']
-        result = []
-        try:
-            result = api.provides(
-                args.package,
-                version=args.version,
-                arch=args.arch,
-                rows_per_page=args.rows_per_page,
-                start_row=args.start_row,
-            )
-        except ValueError:
-            raise ValueError("Error loading the data for this element.")
-        if not result:
-            raise IndexError("No such package found.")
-
-        if not result['rows']:
-            raise IndexError("No such package found.")
-
-        rows = result['rows']
-
-        return (
-            columns,
-            [[row['name'] + " " + row['version']] for row in rows],
-        )
-
-
-class Obsoletes(FCommListerRel):
-
-    log = logging.getLogger(__name__)
-
-    def take_action(self, args):
-        columns = ['Obsoletes']
-        result = []
-        try:
-            result = api.obsoletes(
-                args.package,
-                version=args.version,
-                arch=args.arch,
-                rows_per_page=args.rows_per_page,
-                start_row=args.start_row,
-            )
-        except ValueError:
-            raise ValueError("Error loading the data for this element.")
-
-        if not result:
-            raise IndexError("No such package found.")
-
-        if not result['rows']:
-            raise IndexError("No such package found.")
-
-        rows = result['rows']
-
-        return (
-            columns,
-             [[row['name'] + " " + row['ops'] + " " + row['version']]
-            for row in rows],
-        )
-
-
-class Conflicts(FCommListerRel):
-
-    log = logging.getLogger(__name__)
-
-    def take_action(self, args):
-        columns = ['Conflicts']
-        result = []
-        try:
-            result = api.conflicts(
-                args.package,
-                version=args.version,
-                arch=args.arch,
-                rows_per_page=args.rows_per_page,
-                start_row=args.start_row,
-            )
-        except ValueError:
-            raise ValueError("Error loading the data for this element.")
-
-        if not result:
-            raise IndexError("No such package found.")
-
-        if not result['rows']:
-            raise IndexError("No such package found.")
-
-        rows = result['rows']
-
-        return (
-            columns,
-            [[row['name'],] for row in rows],)
+#class Dependencies(FCommLister):
+#    """Show the dependecies for a package """
+#
+#    log = logging.getLogger(__name__)
+#
+#    def take_action(self, args):
+#        columns = ['name', 'provided_by']
+#        result = []
+#        try:
+#            result = api.dependencies(
+#                args.package
+#            )
+#        except ValueError:
+#            raise ValueError("Error loading the data for this element.")
+#
+#        if not result['rows']:
+#            raise IndexError("No such package found.")
+#
+#        rows = result['rows']
+#
+#        show = []
+#
+#        for row in rows:
+#            reg = []
+#
+#            if row['ops'] == None:
+#                reg.append(row['name'])
+#            else:
+#                reg.append(row['name'] + " " + row['ops'] + " " +
+#                           row['version'])
+#
+#            prov_temp = ""
+#
+#            for prov in row['provided_by']:
+#                prov_temp += "- "+prov
+#                length = len(row['provided_by'])
+#                if length > 1 and (row['provided_by'].index(prov)+1) < length:
+#                    prov_temp += "\n"
+#
+#            if len(prov_temp) > 0:
+#                reg.append(prov_temp)
+#
+#            show.append(reg)
+#            del reg
+#
+#        return (columns, show)
+#
+#
+#class Dependants(FCommLister):
+#
+#    log = logging.getLogger(__name__)
+#
+#    def take_action(self, args):
+#        columns = ['required by','detail']
+#        result = []
+#        try:
+#            result = api.dependants(
+#                args.package,
+#                rows_per_page=args.rows_per_page,
+#                start_row=args.start_row,
+#            )
+#        except ValueError:
+#            raise ValueError("Error loading the data for this element.")
+#
+#        if not result['rows']:
+#            raise IndexError("No such package found.")
+#
+#        rows = result['rows']
+#        detail = []
+#
+#        for row in rows:
+#            temp = []
+#            temp.append(row['name'])
+#            version = ""
+#            name = ""
+#            ops = ""
+#
+#            for key, val in row['requires'].iteritems():
+#                if key == "version":
+#                    version = val
+#                if key == 'ops' and val != None:
+#                    ops = val
+#                if key == 'name':
+#                    name = val
+#
+#            temp.append(name + " " + ops + " " + version)
+#            detail.append(temp)
+#
+#        return (columns, detail)
+#
+#
+#
+#class Provides(FCommListerRel):
+#
+#    log = logging.getLogger(__name__)
+#
+#
+#    def take_action(self, args):
+#        columns = ['Provides']
+#        result = []
+#        try:
+#            result = api.provides(
+#                args.package,
+#                version=args.version,
+#                arch=args.arch,
+#                rows_per_page=args.rows_per_page,
+#                start_row=args.start_row,
+#            )
+#        except ValueError:
+#            raise ValueError("Error loading the data for this element.")
+#        if not result:
+#            raise IndexError("No such package found.")
+#
+#        if not result['rows']:
+#            raise IndexError("No such package found.")
+#
+#        rows = result['rows']
+#
+#        return (
+#            columns,
+#            [[row['name'] + " " + row['version']] for row in rows],
+#        )
+#
+#
+#class Obsoletes(FCommListerRel):
+#
+#    log = logging.getLogger(__name__)
+#
+#    def take_action(self, args):
+#        columns = ['Obsoletes']
+#        result = []
+#        try:
+#            result = api.obsoletes(
+#                args.package,
+#                version=args.version,
+#                arch=args.arch,
+#                rows_per_page=args.rows_per_page,
+#                start_row=args.start_row,
+#            )
+#        except ValueError:
+#            raise ValueError("Error loading the data for this element.")
+#
+#        if not result:
+#            raise IndexError("No such package found.")
+#
+#        if not result['rows']:
+#            raise IndexError("No such package found.")
+#
+#        rows = result['rows']
+#
+#        return (
+#            columns,
+#             [[row['name'] + " " + row['ops'] + " " + row['version']]
+#            for row in rows],
+#        )
+#
+#
+#class Conflicts(FCommListerRel):
+#
+#    log = logging.getLogger(__name__)
+#
+#    def take_action(self, args):
+#        columns = ['Conflicts']
+#        result = []
+#        try:
+#            result = api.conflicts(
+#                args.package,
+#                version=args.version,
+#                arch=args.arch,
+#                rows_per_page=args.rows_per_page,
+#                start_row=args.start_row,
+#            )
+#        except ValueError:
+#            raise ValueError("Error loading the data for this element.")
+#
+#        if not result:
+#            raise IndexError("No such package found.")
+#
+#        if not result['rows']:
+#            raise IndexError("No such package found.")
+#
+#        rows = result['rows']
+#
+#        return (
+#            columns,
+#            [[row['name'],] for row in rows],)
