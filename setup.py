@@ -23,7 +23,7 @@ except ImportError:
     pass
 
 requires = [
-    'pkgwat.api >= 0.10',
+    'pkgwat.api >= 0.11',
     'six',  # For python3 support
     'cliff',
 ]
@@ -58,7 +58,7 @@ __url__ = "http://github.com/fedora-infra/pkgwat.cli"
 
 setup(
     name=__name__,
-    version='0.10',
+    version='0.11',
     description=__description__,
     long_description=long_description,
     author=__author__,
