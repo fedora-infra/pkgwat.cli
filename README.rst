@@ -56,6 +56,7 @@ Getting help::
       conflicts      Show that which is marked as "conflict" by a given package
 
 
+      To get the help of a command use "pkgwat help [command]".
 You can search for packages::
 
     --- ~ » pkgwat search nethack
