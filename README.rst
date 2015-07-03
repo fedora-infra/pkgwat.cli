@@ -51,6 +51,7 @@ Getting help::
       updates        List bodhi updates for a package
       dependencies   Show the dependencies for un package
 
+      To get the help of a command use "pkgwat help [command]".
 You can search for packages::
 
     --- ~ » pkgwat search nethack
