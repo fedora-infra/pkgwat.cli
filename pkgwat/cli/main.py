@@ -3,12 +3,13 @@ import sys
 import codecs
 import locale
 
+import pkg_resources
+
 import cliff.app
 import cliff.commandmanager
 from cliff.commandmanager import CommandManager
-
 # TODO -- how do we dynamically link these with setup.py?
-__version__ = 0.3
+__version__ = pkg_resources.get_distribution('pkgwat.cli').version
 __description__ = "CLI tool for querying the fedora packages webapp"
 
 requests_log = logging.getLogger("requests")
