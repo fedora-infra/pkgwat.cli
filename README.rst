@@ -43,6 +43,7 @@ Getting help::
       bugs           List bugs for a package
       builds         List koji builds for a package
       changelog      Show the changelog for a package
+      complete       print bash completion command
       contents       Show contents of a package
       help           print detailed help for another command
       info           Show details about a package
@@ -56,6 +57,18 @@ Getting help::
       conflicts      Show that which is marked as "conflict" by a given package
 
       To get the help of a command use "pkgwat help [command]".
+You can enable activate bash completetion::
+
+    $ pkgwat complete > pkgwat_complete.sh
+
+    Add pkgwat_complete.sh in your .bashrc
+
+    $ source .bashrc
+
+    $ pkgwat 
+      bugs       changelog  contents   history    info       search
+      builds     complete   help       icon       releases   updates
+
 You can search for packages::
 
     --- ~ » pkgwat search nethack
