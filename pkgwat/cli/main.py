@@ -22,6 +22,7 @@ class PkgWat(cliff.app.App):
 
     def __init__(self):
         manager = cliff.commandmanager.CommandManager('pkgwat.subcommands')
+        manager.add_command('complete', cliff.complete.CompleteCommand)
         super(PkgWat, self).__init__(
             description=__description__,
             version=__version__,
