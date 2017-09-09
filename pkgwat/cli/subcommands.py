@@ -293,9 +293,6 @@ class Contents(cliff.command.Command):
     def get_parser(self, prog_name):
         parser = super(type(self), self).get_parser(prog_name)
         parser.add_argument("package")
-        parser.add_argument('--arch', dest='arch', default='x86_64',
-                            help="One of %s" % (
-                                ', '.join(api.yum_arches)))
         parser.add_argument('--release', dest='release', default='Rawhide',
                             help="One of %s" % (
                                 ', '.join(api.yum_releases)))
@@ -304,7 +301,6 @@ class Contents(cliff.command.Command):
     def take_action(self, args):
         result = api.contents(
             args.package,
-            arch=args.arch,
             release=args.release,
         )
         self._recursive_print(result)
