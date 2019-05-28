@@ -17,6 +17,8 @@ Python API
 There is one.  You can download it indepenant of the CLI tools at
 http://pypi.python.org/pypi/pkgwat.api
 
+::
+
 >>> from pkgwat import api
 >>> results = api.search("nethack")
 >>> results['rows'][0]['summary']
@@ -65,7 +67,7 @@ You can enable activate bash completetion::
 
     $ source .bashrc
 
-    $ pkgwat 
+    $ pkgwat
       bugs       changelog  contents   history    info       search
       builds     complete   help       icon       releases   updates
 
@@ -115,6 +117,26 @@ Flexibility with output formats for all commands::
                             when to include quotes, defaults to nonnumeric
 
 There's even a shell.  Just run ``$ pkgwat``.
+
+Setting up development environment
+----------------------------------
+
+Make sure you have ``virtualenv`` installed and create a new venv::
+
+  $ virtualenv env
+  $ source env/bin/activate
+  $ pip install -e .
+
+If you intend to work also on ``pkgwat.api``, install your local version::
+
+  $ pip install -e /path/to/pkgwat.api
+
+Running the test suite
+----------------------
+
+Make sure you have ``tox`` installed and run it (outside of any virtualenv)::
+
+  $ tox
 
 License
 -------
