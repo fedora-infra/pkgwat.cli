@@ -138,6 +138,15 @@ Make sure you have ``tox`` installed and run it (outside of any virtualenv)::
 
   $ tox
 
+Cutting a new release
+---------------------
+
+In order to generate a list of changes to be placed into ``CHANGELOG.rst``, use
+the following command (this example generates the log between ``0.11`` and
+``HEAD`` refs)::
+
+  git log --reverse --format=format:'- %s `%h <https://github.com/fedora-infra/pkgwat.cli/commit/%H>`_' 0.11..HEAD
+
 License
 -------
 
