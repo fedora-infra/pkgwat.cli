@@ -19,10 +19,10 @@ http://pypi.python.org/pypi/pkgwat.api
 
 ::
 
->>> from pkgwat import api
->>> results = api.search("nethack")
->>> results['rows'][0]['summary']
-u'A rogue-like single player dungeon exploration game'
+  >>> from pkgwat import api
+  >>> results = api.search("nethack")
+  >>> results['rows'][0]['summary']
+  u'A rogue-like single player dungeon exploration game'
 
 Shell Usage
 -----------
@@ -59,6 +59,7 @@ Getting help::
       conflicts      Show that which is marked as "conflict" by a given package
 
       To get the help of a command use "pkgwat help [command]".
+
 You can enable activate bash completetion::
 
     $ pkgwat complete > pkgwat_complete.sh
