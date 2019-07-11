@@ -17,6 +17,8 @@ Python API
 There is one.  You can download it indepenant of the CLI tools at
 http://pypi.python.org/pypi/pkgwat.api
 
+::
+
 >>> from pkgwat import api
 >>> results = api.search("nethack")
 >>> results['rows'][0]['summary']
@@ -43,6 +45,7 @@ Getting help::
       bugs           List bugs for a package
       builds         List koji builds for a package
       changelog      Show the changelog for a package
+      complete       print bash completion command
       contents       Show contents of a package
       help           print detailed help for another command
       info           Show details about a package
@@ -55,6 +58,18 @@ Getting help::
       obsoletes      Show that which is obsoleted by a given package
       conflicts      Show that which is marked as "conflict" by a given package
 
+      To get the help of a command use "pkgwat help [command]".
+You can enable activate bash completetion::
+
+    $ pkgwat complete > pkgwat_complete.sh
+
+    Add pkgwat_complete.sh in your .bashrc
+
+    $ source .bashrc
+
+    $ pkgwat
+      bugs       changelog  contents   history    info       search
+      builds     complete   help       icon       releases   updates
 
 You can search for packages::
 
@@ -102,6 +117,35 @@ Flexibility with output formats for all commands::
                             when to include quotes, defaults to nonnumeric
 
 There's even a shell.  Just run ``$ pkgwat``.
+
+Setting up development environment
+----------------------------------
+
+Make sure you have ``virtualenv`` installed and create a new venv::
+
+  $ virtualenv env
+  $ source env/bin/activate
+  $ pip install -e .
+
+If you intend to work also on ``pkgwat.api``, install your local version::
+
+  $ pip install -e /path/to/pkgwat.api
+
+Running the test suite
+----------------------
+
+Make sure you have ``tox`` installed and run it (outside of any virtualenv)::
+
+  $ tox
+
+Cutting a new release
+---------------------
+
+In order to generate a list of changes to be placed into ``CHANGELOG.rst``, use
+the following command (this example generates the log between ``0.11`` and
+``HEAD`` refs)::
+
+  git log --reverse --format=format:'- %s `%h <https://github.com/fedora-infra/pkgwat.cli/commit/%H>`_' 0.11..HEAD
 
 License
 -------

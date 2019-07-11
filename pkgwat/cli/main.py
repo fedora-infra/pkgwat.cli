@@ -1,14 +1,13 @@
 import logging
 import sys
-import codecs
-import locale
+
+import pkg_resources
 
 import cliff.app
 import cliff.commandmanager
 from cliff.commandmanager import CommandManager
-
 # TODO -- how do we dynamically link these with setup.py?
-__version__ = 0.3
+__version__ = pkg_resources.get_distribution('pkgwat.cli').version
 __description__ = "CLI tool for querying the fedora packages webapp"
 
 requests_log = logging.getLogger("requests")
@@ -21,12 +20,11 @@ class PkgWat(cliff.app.App):
 
     def __init__(self):
         manager = cliff.commandmanager.CommandManager('pkgwat.subcommands')
+        manager.add_command('complete', cliff.complete.CompleteCommand)
         super(PkgWat, self).__init__(
             description=__description__,
             version=__version__,
             command_manager=manager,
-            stdout=codecs.getwriter(locale.getpreferredencoding())(sys.stdout),
-            stderr=codecs.getwriter(locale.getpreferredencoding())(sys.stderr),
         )
 
     def initialize_app(self, argv):
