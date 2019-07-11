@@ -1,6 +1,29 @@
 Changelog
 =========
 
+0.13
+----
+
+- Add support for querying package relationships - Requires `628d840 <https://github.com/fedora-infra/pkgwat.cli/commit/628d840f443216b30181d97dc89d06c2223e89ed>`_
+- Merge branch 'release/0.11' into develop `8c93517 <https://github.com/fedora-infra/pkgwat.cli/commit/8c93517f34462b789e62b1ba1327964d00cfaf9f>`_
+- Add a guide to using the command help `9426cd3 <https://github.com/fedora-infra/pkgwat.cli/commit/9426cd3ca04d5175ee7cedd1d7421d96166de8d4>`_
+- Add a guide to using the command help `49b79fb <https://github.com/fedora-infra/pkgwat.cli/commit/49b79fb16f7cda4c17d6ca43d8601a137ff26408>`_
+- Update `128aa79 <https://github.com/fedora-infra/pkgwat.cli/commit/128aa79853c5b6d66ffa5603310b8146d4106582>`_
+- Merge pull request #33 from arielb2/develop `68b3bc4 <https://github.com/fedora-infra/pkgwat.cli/commit/68b3bc45f6306cab4a0287219424b453c9581285>`_
+- Suggest a method for the description and version `97f8ac9 <https://github.com/fedora-infra/pkgwat.cli/commit/97f8ac9bcd68c30dff1de206e6ad7dea0a8fb0cd>`_
+- Merge pull request #36 from arielb2/develop `8110786 <https://github.com/fedora-infra/pkgwat.cli/commit/81107862dbdb504d72dd43fa95bffa2c8525dea1>`_
+- Support Command Completions `24f0768 <https://github.com/fedora-infra/pkgwat.cli/commit/24f0768abf0e8baab22bb82a10fa31f3809801e8>`_
+- Merge pull request #37 from arielb2/develop `92e3f1f <https://github.com/fedora-infra/pkgwat.cli/commit/92e3f1f906d9dd7415ed37188693eee69050c038>`_
+- Remove the arch argument since it not supported in fedora-packages `f30ad13 <https://github.com/fedora-infra/pkgwat.cli/commit/f30ad137131c8a41dde9dd789c2c93df3b639588>`_
+- add .cico.pipeline `ae139a4 <https://github.com/fedora-infra/pkgwat.cli/commit/ae139a45b63fc4180e5a655b7333e284255a4c29>`_
+- Introduce tox with basic test framework `cb6e938 <https://github.com/fedora-infra/pkgwat.cli/commit/cb6e938042c2235a0f6b6f228bf0bc6d0003b700>`_
+- remove custom override of stdout/stderr encoding `68321e4 <https://github.com/fedora-infra/pkgwat.cli/commit/68321e4da6fd7d8d90246e7d21312af877b53333>`_
+- tox: bump py36 env to py37 `807a8e8 <https://github.com/fedora-infra/pkgwat.cli/commit/807a8e87773af8d501f0e61f1585c8ce9658ba53>`_
+- readme: add instructions how to set up devenv and run tests `e1236a1 <https://github.com/fedora-infra/pkgwat.cli/commit/e1236a1edfd709ba010e32e018c09144e0f799d9>`_
+- changelog: remove erroneous extra lines at the bottom `03dc98a <https://github.com/fedora-infra/pkgwat.cli/commit/03dc98a27556b959a703d2c0a09e5dd49a7d1820>`_
+- readme: add instructions how to populate changelog `1c9bfb6 <https://github.com/fedora-infra/pkgwat.cli/commit/1c9bfb61114c3c67c1a3473173d3ea1bde329904>`_
+
+
 0.11
 ----
 
